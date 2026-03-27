@@ -40,8 +40,16 @@ class Upsampler:
         model_path = os.path.join(weights_dir, f"{model_name}.pth")
 
         if not os.path.exists(model_path):
-            logger.warning(f"[Upsampler] ⚠ Weights not found at {model_path}. Using Lanczos fallback.")
-            return
+            try:
+                os.makedirs(weights_dir, exist_ok=True)
+                from urllib.request import urlretrieve
+                url = f"https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/{model_name}.pth"
+                logger.info(f"[Upsampler] Downloading {model_name} weights to {model_path}...")
+                urlretrieve(url, model_path)
+                logger.info("[Upsampler] Download complete.")
+            except Exception as e:
+                logger.warning(f"[Upsampler] ⚠ Failed to download weights: {e}. Using Lanczos fallback.")
+                return
 
         if not HAS_SPANDREL:
             logger.info("[Upsampler] ⚠ spandrel not installed. Using Lanczos fallback.")
