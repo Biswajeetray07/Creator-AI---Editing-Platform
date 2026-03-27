@@ -1,0 +1,35 @@
+pipeline:
+  device: "cuda"
+  image_size: 1024
+
+paths:
+  weights:
+    # Text detection handled by EasyOCR (auto-downloads CRAFT weights)
+    inpainting: "big-lama.pt"
+    diffusion: "runwayml/stable-diffusion-inpainting"
+
+  output:
+    dir: "text_output"
+
+parameters:
+  mask_refinement:
+    dilate_kernel: 7       # Gentle dilation for anti-aliased text edges
+    dilate_iterations: 2
+    gaussian_blur: 5       # Slight feather
+
+  edge_extraction:
+    canny_low: 30
+    canny_high: 100
+
+  inpainting:
+    multi_scale: false
+    scales: [512]
+
+  post_processing:
+    use_poisson: false
+
+  diffusion:
+    prompt: "clean natural background, realistic texture, seamless, high quality"
+    negative_prompt: "text, letters, characters, watermark, writing, words, signature, logo, noise, artifacts, blurry"
+    num_inference_steps: 25
+    strength: 0.0          # Disabled. LaMa alone produces best results at native resolution.

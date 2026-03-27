@@ -1,0 +1,50 @@
+pipeline:
+  device: "cuda"
+  image_size: 1024
+
+paths:
+  weights:
+    detection: "groundingdino_swint_ogc.pth"
+    segmentation: "mobilesam.pt"
+    depth: "midas_v21_small.pt"
+    inpainting: "big-lama.pt"
+    diffusion: "runwayml/stable-diffusion-inpainting"
+  output:
+    dir: "output"
+
+parameters:
+  detection:
+    config_path: "configs/GroundingDINO_SwinT_OGC.py"
+    box_threshold: 0.3
+    text_threshold: 0.25
+
+  context_expansion:
+    expansion_factor: 1.5
+    min_padding: 30
+
+  mask_refinement:
+    dilate_kernel: 7
+    dilate_iterations: 2
+    close_kernel: 5
+    gaussian_blur: 5
+
+  edge_extraction:
+    canny_low: 50
+    canny_high: 150
+
+  inpainting:
+    multi_scale: true
+    scales: [256, 512, 768]
+
+  depth:
+    enabled: true
+    model_type: "MiDaS_v21_small"
+
+  post_processing:
+    use_poisson: false  # Disabling poisson to prevent harsh edge color shifts
+
+  diffusion:
+    prompt: "A clean natural landscape, realistic reconstruction with no artifacts"
+    negative_prompt: "artifacts, blurry, distorted, noisy patches, low quality, human, text, person"
+    num_inference_steps: 30
+    strength: 0.0   # Properly disabled SD to rely purely on LaMa

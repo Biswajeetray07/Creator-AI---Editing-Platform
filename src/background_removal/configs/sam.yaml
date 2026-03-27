@@ -1,0 +1,26 @@
+# SAM (Segment Anything Model) Configuration
+# Model: SAM ViT-B — balanced speed/quality trade-off
+
+model:
+  type: "vit_b"
+  checkpoint: "sam_vit_b_01ec64.pth"
+
+# Auto-segmentation parameters
+auto:
+  points_per_side: 32
+  pred_iou_thresh: 0.86
+  stability_score_thresh: 0.92
+  min_mask_region_area: 1000
+
+# Performance tuning (per-device)
+cuda:
+  points_per_batch: 64
+  use_fp16: true
+
+mps:
+  points_per_batch: 16
+  use_fp16: false
+
+cpu:
+  points_per_batch: 16
+  use_fp16: false

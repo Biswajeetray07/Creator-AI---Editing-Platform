@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+*.egg
+dist/
+build/
+*.so
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Model Weights (large files)
+weights/
+*.pth
+*.ckpt
+*.safetensors
+*.bin
+
+# OneDrive
+.~lock.*
+~$*
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & Outputs
+outputs/
+logs/
+*.log
+
+# Temporary
+/tmp/
+*.tmp

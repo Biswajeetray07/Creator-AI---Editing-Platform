@@ -1,0 +1,42 @@
+# ═══════════════════════════════════════════
+#  Creator AI — Dependencies
+# ═══════════════════════════════════════════
+
+# Core
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.24.0
+opencv-python>=4.8.0
+Pillow>=10.0.0
+pyyaml>=6.0
+
+# Dashboard
+streamlit>=1.30.0
+
+# Super Resolution
+spandrel>=0.3.0                # Model loading (RealESRGAN, SwinIR)
+facexlib>=0.3.0                # Face detection + restoration helpers
+lpips>=0.1.4                   # Perceptual loss (CodeFormer dependency)
+diffusers>=0.25.0              # Stable Diffusion upscaler
+transformers>=4.35.0           # HuggingFace models
+accelerate>=0.25.0             # Model loading optimization
+safetensors>=0.4.0             # Safe model format
+
+# Text Removal
+craft-text-detector>=0.4.3     # Text detection
+
+# Object Removal
+groundingdino-py>=0.4.0        # Object detection
+ultralytics>=8.0.0             # YOLOv8 fallback detector
+
+# Background Removal
+kornia>=0.6.0                  # Geometry / vision utilities
+
+# Color Correction
+# (uses models included in libs/)
+
+# Utilities
+huggingface-hub>=0.20.0        # Weight downloads
+scipy>=1.10.0                  # Signal processing
+scikit-image>=0.21.0           # Image metrics
+tqdm>=4.65.0                   # Progress bars

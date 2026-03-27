@@ -1,0 +1,16 @@
+# MODNet (Alpha Matting) Configuration
+# Model: MODNet with MobileNetV2 backbone
+
+model:
+  checkpoint: "modnet_photographic_portrait_matting.ckpt"
+
+preprocessing:
+  ref_size: 512
+  max_inference_size: 2048
+  normalize_mean: 0.5
+  normalize_std: 0.5
+
+# Alpha matting thresholds
+matting:
+  foreground_threshold: 0.92
+  background_threshold: 0.08

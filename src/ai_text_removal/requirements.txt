@@ -1,0 +1,26 @@
+# Install torch/torchvision with CUDA support:
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124
+torch>=2.0.0
+torchvision>=0.15.0
+# Use the headless variant if no display server is available
+opencv-python-headless>=4.8.0
+numpy>=1.24.0
+Pillow>=10.0.0
+scikit-image>=0.21.0
+matplotlib>=3.7.0
+tqdm>=4.65.0
+diffusers>=0.21.0
+transformers>=4.33.0
+accelerate>=0.23.0
+onnxruntime>=1.15.0
+craft-text-detector>=0.4.2
+segment-anything>=1.0
+gdown>=4.6.0
+
+# --- Object Removal Pipeline Specific ---
+ultralytics>=8.0.0      # YOLOv8 for Object Detection
+MobileSAM>=1.0.0        # Fast alternative to SAM for Object Segmentation
+timm>=0.6.12            # Required for MiDaS Depth Estimation
+omegaconf>=2.1.1        # Required for Big-LaMa configuration parsing
+pytorch-lightning>=1.5.0 # Required for Big-LaMa training/inference logic
+kornia>=0.6.0           # Geometry routines sometimes used by LaMa

@@ -1,0 +1,66 @@
+# ═══════════════════════════════════════════════════════════════
+#  Smart Adaptive AI Super-Resolution — Master Configuration
+#  Quality-Aware Pipeline (RealESRGAN + CodeFormer + SwinIR + SD)
+# ═══════════════════════════════════════════════════════════════
+
+pipeline:
+  device: "cuda"
+  image_size_limit: 4096       # Max input dimension before safety downscale
+
+paths:
+  weights_dir: "weights"
+  output_dir: "outputs/upscaled"
+
+# ── Module Toggles ──────────────────────────────────────────────
+modules:
+  input_validation:
+    enabled: true
+
+  # Quality Analysis — drives conditional routing
+  quality_analysis:
+    blur_threshold: 0.7        # Above → run Diffusion (HD mode only)
+    detail_threshold: 0.5      # Below → run SwinIR (Balanced/HD mode)
+    noise_threshold: 0.6       # Above → auto-denoise
+
+  denoiser:
+    enabled: true              # Edge-preserving denoising
+    strength: 5
+
+  tile_engine:
+    enabled: true
+    tile_size: 512
+    overlap: 64                # Overlap for Gaussian fusion
+
+  upscaling:
+    enabled: true
+    model_name: "RealESRGAN_x4plus"
+    default_scale: 4
+
+  # CodeFormer — auto-activated when face detected
+  face_enhancement:
+    enabled: true
+    model: "codeformer"
+    fidelity_weight: 0.7       # 0.0 = max quality, 1.0 = max identity
+    face_weight: 0.7           # Blending weight for face paste-back
+
+  # SwinIR — activated in Balanced/HD mode if detail is low
+  swinir_refinement:
+    enabled: true
+    model_name: "SwinIR_large_x4"
+    tile_size: 512
+
+  # Stable Diffusion — activated in HD mode if image is very blurry
+  diffusion_refinement:
+    enabled: true
+    num_inference_steps: 20    # 20 = fast, 50 = max quality
+    guidance_scale: 4.0        # 4.0 = subtle, 7.5 = strong
+
+  color_matching:
+    enabled: true
+    method: "histogram"        # histogram matching in LAB space
+
+  post_processing:
+    enabled: true
+    sharpen: true
+    sharpen_strength: 0.3
+    edge_aware_smooth: true    # Bilateral filter for GAN artifact removal
