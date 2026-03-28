@@ -399,7 +399,7 @@ with st.sidebar:
             if st.button(
                 f"{tool_info['icon']}   {tool_info['name']}",
                 key=f"tool_{tool_key}",
-                width='stretch',
+                use_container_width=True,
             ):
                 st.session_state.current_tool = tool_key
                 st.session_state.processed_image = None
@@ -421,7 +421,7 @@ with st.sidebar:
             st.markdown(f"&nbsp; {entry['tool_icon']} {entry['tool_name']} — *{entry['time']}*")
 
         st.markdown("")
-        if st.button("↩️  Undo Last", width='stretch', key="undo_btn"):
+        if st.button("↩️  Undo Last", use_container_width=True, key="undo_btn"):
             if st.session_state.history:
                 last = st.session_state.history.pop()
                 st.session_state.processed_image = last.get("prev_image")
@@ -535,14 +535,14 @@ else:
             st.markdown('<div class="main-action">', unsafe_allow_html=True)
             process_btn = st.button(
                 f"⚡  Process with {tool['name']}",
-                width='stretch',
+                use_container_width=True,
                 key="process_btn",
             )
             st.markdown('</div>', unsafe_allow_html=True)
 
         with act_col2:
             st.markdown('<div class="secondary-btn">', unsafe_allow_html=True)
-            reset_btn = st.button("🔄 Reset", width='stretch', key="reset_btn")
+            reset_btn = st.button("🔄 Reset", use_container_width=True, key="reset_btn")
             st.markdown('</div>', unsafe_allow_html=True)
 
         with act_col3:
@@ -560,7 +560,7 @@ else:
                     data=dl_bytes,
                     file_name=f"creatorai_{st.session_state.current_tool}.png",
                     mime="image/png",
-                    width='stretch',
+                    use_container_width=True,
                     key="dl_btn",
                 )
 
@@ -671,7 +671,7 @@ else:
             with col1:
                 st.markdown('<div class="img-label">📷 Original</div>', unsafe_allow_html=True)
                 st.markdown('<div class="img-frame">', unsafe_allow_html=True)
-                st.image(img_rgb, width='stretch')
+                st.image(img_rgb, use_container_width=True)
                 st.markdown('</div>', unsafe_allow_html=True)
                 oh, ow = img_rgb.shape[:2]
                 st.caption(f"{ow} × {oh} px")
@@ -680,7 +680,7 @@ else:
                 st.markdown('<div class="img-label">✨ Processed</div>', unsafe_allow_html=True)
                 st.markdown('<div class="img-frame">', unsafe_allow_html=True)
                 processed = st.session_state.processed_image
-                st.image(processed, width='stretch')
+                st.image(processed, use_container_width=True)
                 st.markdown('</div>', unsafe_allow_html=True)
                 ph, pw = processed.shape[:2]
                 ch = "RGBA" if (len(processed.shape) == 3 and processed.shape[2] == 4) else "RGB"
@@ -732,7 +732,7 @@ else:
             # ── Just show the uploaded image ──
             st.markdown('<div class="img-label">📷 Uploaded Image</div>', unsafe_allow_html=True)
             st.markdown('<div class="img-frame">', unsafe_allow_html=True)
-            st.image(img_rgb, width='stretch')
+            st.image(img_rgb, use_container_width=True)
             st.markdown('</div>', unsafe_allow_html=True)
             oh, ow = img_rgb.shape[:2]
             st.caption(f"{ow} × {oh} px • Ready to process")
