@@ -2,6 +2,9 @@
 #  Creator AI — Dependencies
 # ═══════════════════════════════════════════
 
+# Use CPU-only PyTorch to stay within Streamlit Cloud memory limits (~1GB RAM)
+--extra-index-url https://download.pytorch.org/whl/cpu
+
 # Core
 torch>=2.0.0
 torchvision>=0.15.0
