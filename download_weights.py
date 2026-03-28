@@ -1,7 +1,7 @@
 import urllib.request
 import os
 
-weights_dir = r"c:\Users\raj08\OneDrive\Documents\Machine Models\Text Removal\weights"
+weights_dir = r"c:\Users\raj08\OneDrive\Documents\Machine Models\Creator AI\weights"
 os.makedirs(weights_dir, exist_ok=True)
 
 urls = {
