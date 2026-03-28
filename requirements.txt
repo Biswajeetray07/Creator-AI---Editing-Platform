@@ -28,7 +28,7 @@ easyocr>=1.7.0               # Text detection
 # Object Removal
 groundingdino-py>=0.4.0        # Object detection
 ultralytics>=8.0.0             # YOLOv8 fallback detector
-MobileSAM>=1.0.0               # SAM Segmenter
+git+https://github.com/ChaoningZhang/MobileSAM.git               # SAM Segmenter
 timm>=0.6.12                   # MiDaS Depth Estimation
 omegaconf>=2.1.1               # Big-LaMa config parsing
 pytorch-lightning>=1.5.0       # Big-LaMa logic
