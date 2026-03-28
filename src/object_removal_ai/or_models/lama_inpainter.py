@@ -14,10 +14,20 @@ class LaMaInpainter:
         self.device = "cuda" if torch.cuda.is_available() and device == "cuda" else "cpu"
         self.model = None
 
-        if not os.path.exists(model_path):
-            print(f"[LaMa] WARNING: Weights not found at {model_path}.")
-            print(f"[LaMa] ⚠️  Will use OpenCV TELEA fallback — quality will be lower.")
-            return
+        # Auto-download big-lama.pt if missing or if it's a Git LFS pointer
+        if not os.path.exists(model_path) or os.path.getsize(model_path) < 1024 * 1024:
+            print(f"[LaMa] Weights not found at {model_path}. Downloading big-lama.pt...")
+            os.makedirs(os.path.dirname(model_path) if os.path.dirname(model_path) else ".", exist_ok=True)
+            try:
+                torch.hub.download_url_to_file(
+                    "https://huggingface.co/fashn-ai/LaMa/resolve/main/big-lama.pt",
+                    model_path,
+                    progress=True
+                )
+                print("[LaMa] Download complete.")
+            except Exception as e:
+                print(f"[LaMa] Download failed: {e}. Will use OpenCV TELEA fallback.")
+                return
 
         try:
             self.model = torch.jit.load(model_path, map_location=self.device)
