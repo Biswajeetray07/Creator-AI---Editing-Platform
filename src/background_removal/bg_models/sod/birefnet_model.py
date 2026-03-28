@@ -34,13 +34,7 @@ class BiRefNetModel(BaseModel):
         """Load BiRefNet from HuggingFace (~800MB, auto-downloaded on first use)."""
         from transformers import AutoModelForImageSegmentation
 
-        # Use Lite model on CPU to prevent OOM freezes on Streamlit Cloud
-        if self.device.type != "cuda":
-            model_id = "ZhengPeng7/BiRefNet_lite"
-            logger.info(f"Using lightweight CPU model: {model_id}")
-        else:
-            model_id = "ZhengPeng7/BiRefNet"
-
+        model_id = "ZhengPeng7/BiRefNet"
         logger.info(f"Downloading/loading BiRefNet from HuggingFace: {model_id}")
 
         self.model = AutoModelForImageSegmentation.from_pretrained(
