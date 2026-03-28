@@ -13,14 +13,19 @@ class MobileSamSegmenter:
     def __init__(self, model_path: str, device: str = "cuda"):
         self.device = "cuda" if torch.cuda.is_available() and device == "cuda" else "cpu"
 
-        if not os.path.exists(model_path):
-            import urllib.request
+        # If the file doesn't exist OR it's a 130-byte Git LFS pointer, download it
+        if not os.path.exists(model_path) or os.path.getsize(model_path) < 1024 * 1024:
             print(f"[MobileSAM] Weights not found at {model_path}. Downloading...")
             os.makedirs(os.path.dirname(model_path), exist_ok=True)
-            urllib.request.urlretrieve(
-                "https://github.com/ChaoningZhang/MobileSAM/raw/master/weights/mobile_sam.pt",
-                model_path
-            )
+            try:
+                torch.hub.download_url_to_file(
+                    "https://github.com/ChaoningZhang/MobileSAM/raw/master/weights/mobile_sam.pt",
+                    model_path,
+                    progress=True
+                )
+            except Exception as e:
+                print(f"[MobileSAM] Download failed: {e}")
+                raise RuntimeError(f"Failed to auto-download MobileSAM weights: {e}")
             print("[MobileSAM] Download complete.")
 
         sam = sam_model_registry["vit_t"](checkpoint=model_path)
