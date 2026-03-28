@@ -19,7 +19,7 @@ gdown>=4.6.0
 
 # --- Object Removal Pipeline Specific ---
 ultralytics>=8.0.0      # YOLOv8 for Object Detection
-MobileSAM>=1.0.0        # Fast alternative to SAM for Object Segmentation
+git+https://github.com/ChaoningZhang/MobileSAM.git        # Fast alternative to SAM for Object Segmentation
 timm>=0.6.12            # Required for MiDaS Depth Estimation
 omegaconf>=2.1.1        # Required for Big-LaMa configuration parsing
 pytorch-lightning>=1.5.0 # Required for Big-LaMa training/inference logic
