@@ -1,3 +1,14 @@
+---
+title: CreatorAI Platform
+emoji: 🚀
+colorFrom: purple
+colorTo: pink
+sdk: streamlit
+sdk_version: "1.32.0"
+app_file: src/ai_image_dashboard/app/streamlit_app.py
+pinned: false
+---
+
 <p align="center">
   <img src="assets/banner.png" alt="Creator AI Banner" width="100%">
 </p>
