@@ -23,10 +23,10 @@ parameters:
     min_padding: 30
 
   mask_refinement:
-    dilate_kernel: 7
-    dilate_iterations: 2
+    dilate_kernel: 15
+    dilate_iterations: 3
     close_kernel: 5
-    gaussian_blur: 5
+    gaussian_blur: 11
 
   edge_extraction:
     canny_low: 50

@@ -36,9 +36,29 @@ class MaskRefiner:
         )
         closed = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, close_k)
 
-        # 2. Dilation — expand mask substantially for context padding
+        # 2. Dilation — dynamic resolution-aware expansion!
+        # MobileSAM masks are tight. We MUST expand them to cover shadows and anti-aliased edges.
+        # Dynamic kernel size based on image resolution constraint (usually ~2% of max dimension).
+        max_dim = max(mask.shape[:2])
+        
+        # Scale the requested dilate_kernel proportionally to the image's overall resolution
+        # Assuming the baseline dilate_kernel (e.g., 15) is designed for a ~512px image
+        scale_factor = max_dim / 512.0
+        dynamic_k = int(self.dilate_kernel * scale_factor)
+        
+        # Ensure it's not excessively small or large
+        dynamic_k = max(7, min(dynamic_k, 45))
+        if dynamic_k % 2 == 0:
+            dynamic_k += 1  # ensure odd kernel
+
+        # Shadows usually fall downwards. Let's make the kernel slightly elliptical (taller than wider)
+        # to catch cast shadows on the ground without destroying horizontal context
+        vertical_k = dynamic_k + (dynamic_k // 2) 
+        if vertical_k % 2 == 0:
+            vertical_k += 1
+
         dilate_k = cv2.getStructuringElement(
-            cv2.MORPH_ELLIPSE, (self.dilate_kernel, self.dilate_kernel)
+            cv2.MORPH_ELLIPSE, (dynamic_k, vertical_k)
         )
         expanded_mask = cv2.dilate(closed, dilate_k, iterations=self.dilate_iter)
 
