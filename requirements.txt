@@ -23,7 +23,7 @@ accelerate>=0.25.0             # Model loading optimization
 safetensors>=0.4.0             # Safe model format
 
 # Text Removal
-craft-text-detector>=0.4.3     # Text detection
+easyocr>=1.7.0               # Text detection
 
 # Object Removal
 groundingdino-py>=0.4.0        # Object detection
