@@ -14,10 +14,14 @@ class MobileSamSegmenter:
         self.device = "cuda" if torch.cuda.is_available() and device == "cuda" else "cpu"
 
         if not os.path.exists(model_path):
-            raise FileNotFoundError(
-                f"[MobileSAM] CRITICAL: Weights not found at {model_path}. "
-                f"Download from: https://github.com/ChaoningZhang/MobileSAM/raw/master/weights/mobile_sam.pt"
+            import urllib.request
+            print(f"[MobileSAM] Weights not found at {model_path}. Downloading...")
+            os.makedirs(os.path.dirname(model_path), exist_ok=True)
+            urllib.request.urlretrieve(
+                "https://github.com/ChaoningZhang/MobileSAM/raw/master/weights/mobile_sam.pt",
+                model_path
             )
+            print("[MobileSAM] Download complete.")
 
         sam = sam_model_registry["vit_t"](checkpoint=model_path)
         sam.to(device=self.device)
